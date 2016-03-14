@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h1>Food Truck Finder</h1>
+
+    <div ng-controller="mapsController">
+      <div id="map"></div>
+      <div id="repeat" ng-repeat="marker in markers | orderBy : 'title'">
+           <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)">
+           <label id="names" >{{marker.title}}</label></a>
+      </div>
+    </div>
+
+  </body>
+</html>
