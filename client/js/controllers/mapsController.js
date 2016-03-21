@@ -1,4 +1,4 @@
-myApp.controller('mapsController', function ($scope, mapFactory, $location) {
+myApp.controller('mapsController', function ($scope, mapFactory) {
 
    var mapOptions = {
        zoom: 11,
@@ -93,8 +93,10 @@ myApp.controller('mapsController', function ($scope, mapFactory, $location) {
    }
 
    $scope.addTruck = function(){
+      console.log('adding truck!');
       $scope.new_truck.created_at = new Date();
       mapFactory.addTruck($scope.new_truck, function(data){
+         console.log('adding truck 2!');
          $scope.trucks = data;
          $scope.new_truck = {};
       })

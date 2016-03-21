@@ -1,20 +1,42 @@
 <!DOCTYPE html>
 <html>
-  <body>
-    <h3>Add a New Food Truck!</h3>
-
-    <div ng-controller="mapsController">
-      <div id="new_truck_form">
-      	<form name='truckForm' ng-submit='addTruck()'>
-      	   Name: <input type='text' ng-model='new_truck.name' ng-minlength='3' required>
-            Description: <input type='text' ng-model='new_truck.desc' required>
-            Latitude: <input type='text' ng-model='new_truck.lat' required>
-            Longitude: <input type='text' ng-model='new_truck.lon' required>
-      		<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect" type='submit'>Submit</button>
-      	</form>
+   <body>
+      <div ng-controller="mapsController">
+         <div id="new_truck_form_2">
+            <h4>Add a New Food Truck!</h4>
+            <form action="#" name="truckForm" ng-submit='addTruck()'>
+              <div class="mdl-textfield mdl-js-textfield">
+                <input ng-model='new_truck.name' ng-minlength='3' required class="mdl-textfield__input" type="text" id="name">
+                <label class="mdl-textfield__label" for="name">Name...</label>
+             </div><br>
+              <div class="mdl-textfield mdl-js-textfield">
+                <input ng-model='new_truck.desc' ng-minlength='3' required class="mdl-textfield__input" type="text" id="desc">
+                <label class="mdl-textfield__label" for="name">Description...</label>
+             </div><br>
+              <div class="mdl-textfield mdl-js-textfield">
+                 <input ng-model='new_truck.lat' required class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="lat">
+                 <label class="mdl-textfield__label" for="lat">Latitude...</label>
+                 <span class="mdl-textfield__error">Must be a number</span>
+              </div><br>
+               <div class="mdl-textfield mdl-js-textfield">
+                  <input ng-model='new_truck.lon' required class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="lon">
+                  <label class="mdl-textfield__label" for="lon">Longitude...</label>
+                  <span class="mdl-textfield__error">Must be a number</span>
+               </div><br><br>
+               <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect" type="submit">Submit</button>
+            </form>
+         </div>
       </div>
-   </div>
-   </div>
+
+      <footer class="mdl-mini-footer">
+        <div class="mdl-mini-footer__left-section">
+          <div class="mdl-logo">Food Truck Mapper by Kay Rossio</div>
+          <ul class="mdl-mini-footer__link-list">
+            <li><a href="mailto:krossio@gmail.com">Contact</a></li>
+            <li><a href="http://www.github.com/krossio" target="_blank">Github</a></li>
+          </ul>
+        </div>
+      </footer>
 
   </body>
 </html>

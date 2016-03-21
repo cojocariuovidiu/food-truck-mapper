@@ -6,6 +6,7 @@ myApp.config(function($routeProvider){
 
 			.when('/new_truck', {
 				templateUrl: './../static/partials/new_truck.html',
+				controller: 'mapsController'
 			})
 
 	        .otherwise({
