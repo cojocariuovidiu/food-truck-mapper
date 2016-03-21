@@ -14,7 +14,15 @@ footer{
    margin-top: 40px;
 }
 
-#country_container {
+#country_container, #new_truck_form {
    margin-left: 2%;
    margin-bottom: 10px;
+}
+
+p, input {
+   margin-bottom: 10px;
+}
+
+#new_truck_form button {
+   margin-left: 15px;
 }

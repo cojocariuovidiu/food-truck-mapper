@@ -1,4 +1,4 @@
-myApp.controller('mapsController', function ($scope, mapFactory) {
+myApp.controller('mapsController', function ($scope, mapFactory, $location) {
 
    var mapOptions = {
        zoom: 11,
@@ -97,6 +97,41 @@ myApp.controller('mapsController', function ($scope, mapFactory) {
       mapFactory.addTruck($scope.new_truck, function(data){
          $scope.trucks = data;
          $scope.new_truck = {};
+      })
+
+      mapFactory.getTrucks(function(data){
+         $scope.trucks = data;
+         $scope.markers = [];
+         console.log(data);
+
+         var createMarker = function (data){
+
+            var image = 'http://www.free-icons-download.net/images/truck-icon-3846.png';
+
+            var marker = new google.maps.Marker({
+               map: $scope.map,
+               position: new google.maps.LatLng(data.lat, data.lon),
+               title: data.name,
+               content: data.desc,
+               icon: image,
+               animation: google.maps.Animation.DROP
+            });
+
+            google.maps.event.addListener(marker, 'click', function(){
+               infoWindow.setContent('<h5>' + marker.title + '</h5>' + marker.content);
+               infoWindow.open($scope.map, marker);
+            });
+
+            $scope.markers.push(marker);
+            console.log($scope.markers + 'creating markers');
+
+         }
+
+         for (i = 0; i < $scope.trucks.length; i++){
+            createMarker($scope.trucks[i]);
+            console.log('this is coming from the for loop');
+         }
+
       })
    }
 
