@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var fs = require('fs');
 
-mongoose.connect('mongodb://localhost/doctors_appts');
+mongoose.connect('mongodb://localhost/food_trucks');
 var models_path = __dirname + '/../models';
 
 fs.readdirSync(models_path).forEach(function(file){

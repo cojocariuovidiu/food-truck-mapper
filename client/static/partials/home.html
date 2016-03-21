@@ -1,15 +1,36 @@
 <!DOCTYPE html>
 <html>
   <body>
-    <h1>Food Truck Finder</h1>
-
     <div ng-controller="mapsController">
+
       <div id="map"></div>
+
       <div id="repeat" ng-repeat="marker in markers | orderBy : 'title'">
-           <a id="country_container" href="#" ng-click="openInfoWindow($event, marker)">
-           <label id="names" >{{marker.title}}</label></a>
+         <button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" id="country_container" href="#" ng-click="openInfoWindow($event, marker)">
+         <label id="names" >{{marker.title}}</label></a>
       </div>
-    </div>
+
+      <!-- <div id="new_truck_form">
+      	<h3>Add a New Food Truck!</h3>
+      	<form name='truckForm' ng-submit='addTruck()'>
+      	   Name: <input type='text' ng-model='new_truck.name' ng-minlength='3' required>
+            Description: <input type='text' ng-model='new_truck.desc' required>
+            Latitude: <input type='text' ng-model='new_truck.lat' required>
+            Longitude: <input type='text' ng-model='new_truck.lon' required>
+      		<button class="mdl-button mdl-js-button mdl-buttonraised mdl-buttoncolored mdl-js-ripple-effect" type='submit'>Submit</button>
+      	</form>
+      </div>
+   </div> -->
+
+   <footer class="mdl-mini-footer">
+     <div class="mdl-mini-footer__left-section">
+       <div class="mdl-logo">Food Truck Finder by Kay Rossio</div>
+       <ul class="mdl-mini-footer__link-list">
+         <li><a href="mailto:krossio@gmail.com">Contact</a></li>
+         <li><a href="#">Privacy & Terms</a></li>
+       </ul>
+     </div>
+   </footer>
 
   </body>
 </html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <h3>Add a New Food Truck!</h3>
+
+    <div ng-controller="mapsController">
+      <div id="new_truck_form">
+      	<form name='truckForm' ng-submit='addTruck()'>
+      	   Name: <input type='text' ng-model='new_truck.name' ng-minlength='3' required>
+            Description: <input type='text' ng-model='new_truck.desc' required>
+            Latitude: <input type='text' ng-model='new_truck.lat' required>
+            Longitude: <input type='text' ng-model='new_truck.lon' required>
+      		<button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect" type='submit'>Submit</button>
+      	</form>
+      </div>
+   </div>
+   </div>
+
+  </body>
+</html>

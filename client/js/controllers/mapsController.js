@@ -1,65 +1,136 @@
-var cities = [
-              {
-                  city : 'New York',
-                  desc : 'The Big Apple!',
-                  lat : 40.6700,
-                  long : -73.9400
-              },
-              {
-                  city : 'Los Angeles',
-                  desc : 'Cool town!',
-                  lat : 34.0500,
-                  long : -118.2500
-              },
-              {
-                city : 'Chicago',
-                desc : 'Description of city!',
-                lat : 41.8819,
-                long : -87.6278
-              }
-          ];
+myApp.controller('mapsController', function ($scope, mapFactory) {
 
-var myApp = angular.module('myApp', ['ngRoute', 'ngMessages']);
+   var mapOptions = {
+       zoom: 11,
+       center: new google.maps.LatLng(39.7201827,-104.9164698),
+       mapTypeId: google.maps.MapTypeId.ROADMAP
+   }
 
-myApp.controller('mapsController', function ($scope) {
+   $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+   $scope.trucks = [];
 
-    var mapOptions = {
-        zoom: 4,
-        center: new google.maps.LatLng(25,80),
-        mapTypeId: google.maps.MapTypeId.TERRAIN
+   function getLocation() {
+      if (navigator.geolocation) {
+         navigator.geolocation.getCurrentPosition(showPosition, showError);
+      } else {
+         x.innerHTML = "Geolocation is not supported by this browser.";
+      }
+   }
+
+   getLocation();
+
+    function showPosition(position) {
+      var latlon = position.coords.latitude + "," + position.coords.longitude;
+      console.log(latlon);
+
+      var user_marker = new google.maps.Marker({
+         map: $scope.map,
+         position: new google.maps.LatLng(position.coords.latitude , position.coords.longitude),
+      });
+
+      $scope.user_marker = user_marker;
+   }
+
+    function showError(error) {
+      switch(error.code) {
+         case error.PERMISSION_DENIED:
+            x.innerHTML = "User denied the request for Geolocation."
+            break;
+         case error.POSITION_UNAVAILABLE:
+            x.innerHTML = "Location information is unavailable."
+            break;
+         case error.TIMEOUT:
+            x.innerHTML = "The request to get user location timed out."
+            break;
+         case error.UNKNOWN_ERROR:
+            x.innerHTML = "An unknown error occurred."
+            break;
+       }
     }
 
-    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
+   mapFactory.getTrucks(function(data){
+      $scope.trucks = data;
+      $scope.markers = [];
+      console.log(data);
 
-    $scope.markers = [];
+      var createMarker = function (data){
 
-    var infoWindow = new google.maps.InfoWindow();
+         var image = 'http://www.free-icons-download.net/images/truck-icon-3846.png';
 
-    var createMarker = function (info){
-
-        var marker = new google.maps.Marker({
+         var marker = new google.maps.Marker({
             map: $scope.map,
-            position: new google.maps.LatLng(info.lat, info.long),
-            title: info.city
-        });
-        marker.content = '<div class="infoWindowContent">' + info.desc + '</div>';
+            position: new google.maps.LatLng(data.lat, data.lon),
+            title: data.name,
+            content: data.desc,
+            icon: image,
+            animation: google.maps.Animation.DROP
+         });
 
-        google.maps.event.addListener(marker, 'click', function(){
-            infoWindow.setContent('<h2>' + marker.title + '</h2>' + marker.content);
+         google.maps.event.addListener(marker, 'click', function(){
+            infoWindow.setContent('<h5>' + marker.title + '</h5>' + marker.content);
             infoWindow.open($scope.map, marker);
-        });
+         });
 
-        $scope.markers.push(marker);
+         $scope.markers.push(marker);
+         console.log($scope.markers + 'creating markers');
 
-    }
+      }
 
-    for (i = 0; i < cities.length; i++){
-        createMarker(cities[i]);
-    }
+      for (i = 0; i < $scope.trucks.length; i++){
+         createMarker($scope.trucks[i]);
+         console.log('this is coming from the for loop');
+      }
 
-    $scope.openInfoWindow = function(e, selectedMarker){
-        e.preventDefault();
-        google.maps.event.trigger(selectedMarker, 'click');
-    }
+   })
+
+   var infoWindow = new google.maps.InfoWindow({
+      maxWidth: 200
+   });
+
+   $scope.openInfoWindow = function(e, selectedMarker){
+      e.preventDefault();
+      google.maps.event.trigger(selectedMarker, 'click');
+   }
+
+   $scope.addTruck = function(){
+      $scope.new_truck.created_at = new Date();
+      mapFactory.addTruck($scope.new_truck, function(data){
+         $scope.trucks = data;
+         $scope.new_truck = {};
+      })
+   }
+
+//    var destination = "Denver, Colorado";
+//    var origin = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
+
+//    var service = new google.maps.DistanceMatrixService();
+//
+//
+//    service.getDistanceMatrix(
+//      {
+//        origins: [origin],
+//        destinations: [destination],
+//        travelMode: google.maps.TravelMode.WALKING,
+//      }, callback);
+//
+//    function callback(response, status) {
+//     if (status == google.maps.DistanceMatrixStatus.OK) {
+//       var origins = response.originAddresses;
+//       var destinations = response.destinationAddresses;
+//
+//       for (var i = 0; i < origins.length; i++) {
+//          var results = response.rows[i].elements;
+//          for (var j = 0; j < results.length; j++) {
+//             var element = results[j];
+//             var distance = element.distance.text;
+//             var duration = element.duration.text;
+//             var from = origins[i];
+//             var to = destinations[j];
+//         }
+//       }
+//     }
+//   }
+//
+// console.log('after the service for get distance matrix and callback' + distance);
 
 });

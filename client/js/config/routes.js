@@ -4,6 +4,10 @@ myApp.config(function($routeProvider){
 	 			templateUrl: './../static/partials/home.html',
 	 		})
 
+			.when('/new_truck', {
+				templateUrl: './../static/partials/new_truck.html',
+			})
+
 	        .otherwise({
 	          redirectTo: '/'
 	        })
