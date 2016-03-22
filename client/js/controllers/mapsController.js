@@ -1,9 +1,10 @@
 myApp.controller('mapsController', function ($scope, mapFactory) {
 
    var mapOptions = {
-       zoom: 11,
-       center: new google.maps.LatLng(39.7201827,-104.9164698),
-       mapTypeId: google.maps.MapTypeId.ROADMAP
+      zoom: 11,
+      center: new google.maps.LatLng(39.7201827,-104.9164698),
+      mapTypeId: google.maps.MapTypeId.ROADMAP,
+      scrollwheel: false,
    }
 
    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
