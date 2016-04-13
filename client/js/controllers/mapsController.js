@@ -1,5 +1,6 @@
 myApp.controller('mapsController', function ($scope, mapFactory) {
 
+   // Initialize Map
    var mapOptions = {
       zoom: 11,
       center: new google.maps.LatLng(39.7201827,-104.9164698),
@@ -10,6 +11,7 @@ myApp.controller('mapsController', function ($scope, mapFactory) {
    $scope.map = new google.maps.Map(document.getElementById('map'), mapOptions);
    $scope.trucks = [];
 
+   // Get user's location
    function getLocation() {
       if (navigator.geolocation) {
          navigator.geolocation.getCurrentPosition(showPosition, showError);
@@ -20,6 +22,7 @@ myApp.controller('mapsController', function ($scope, mapFactory) {
 
    getLocation();
 
+   // Show user's location
     function showPosition(position) {
       var latlon = position.coords.latitude + "," + position.coords.longitude;
       console.log(latlon);
@@ -49,11 +52,13 @@ myApp.controller('mapsController', function ($scope, mapFactory) {
        }
     }
 
+    //Get trucks data from database
    mapFactory.getTrucks(function(data){
       $scope.trucks = data;
       $scope.markers = [];
       console.log(data);
 
+      // Create markers for trucks and infoboxes when clicked
       var createMarker = function (data){
 
          var image = 'http://www.free-icons-download.net/images/truck-icon-3846.png';
@@ -93,6 +98,7 @@ myApp.controller('mapsController', function ($scope, mapFactory) {
       google.maps.event.trigger(selectedMarker, 'click');
    }
 
+   // Add a new truck
    $scope.addTruck = function(){
       console.log('adding truck!');
       $scope.new_truck.created_at = new Date();
@@ -137,6 +143,89 @@ myApp.controller('mapsController', function ($scope, mapFactory) {
 
       })
    }
+
+// DIRECTIONS TO TRUCKS - IN PROGRESS!!!
+
+   // initialize directions service
+      directionsService = new google.maps.DirectionsService();
+      directionsDisplay = new google.maps.DirectionsRenderer(
+      {
+         suppressMarkers: true,
+         suppressInfoWindows: true
+      });
+
+      directionsDisplay.setMap(map);
+
+      drawRoutes(location1, location2);
+
+   function continueShowRoute(location1, location2)
+	{
+		// hide last line
+		if (line)
+		{
+			line.setMap(null);
+		}
+
+   // show a line between the two points
+		line = new google.maps.Polyline({
+			map: map,
+			path: [location1, location2],
+			strokeWeight: 7,
+			strokeOpacity: 0.8,
+			strokeColor: "#FFAA00"
+		});
+
+		// compute distance between the two points
+		var R = 6371;
+		var dLat = toRad(location2.lat()-location1.lat());
+		var dLon = toRad(location2.lng()-location1.lng());
+
+		var dLat1 = toRad(location1.lat());
+		var dLat2 = toRad(location2.lat());
+
+		var a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+				Math.cos(dLat1) * Math.cos(dLat1) *
+				Math.sin(dLon/2) * Math.sin(dLon/2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+		var d = R * c;
+
+		document.getElementById("distance_direct").innerHTML = "<br/>The distance between the two points (in a straight line) is: "+d;
+
+		var travelmode = document.getElementById("travelMode").value;
+
+		// get the selected travel mode
+		if (travelmode == "driving")
+			travel = google.maps.DirectionsTravelMode.DRIVING;
+		else if (travelmode == "walking")
+			travel = google.maps.DirectionsTravelMode.WALKING;
+		else if (travelmode == "bicycling")
+			travel = google.maps.DirectionsTravelMode.BICYCLING;
+
+		// find and show route between the points
+		var request = {
+			origin:location1,
+			destination:location2,
+			travelMode: travel
+		};
+		directionsService.route(request, function(response, status)
+		{
+			if (status == google.maps.DirectionsStatus.OK)
+			{
+				directionsDisplay.setDirections(response);
+				distance = "The distance between the two points on the chosen route is: "+response.routes[0].legs[0].distance.text;
+				distance += "<br/>The aproximative "+travelmode+" time is: "+response.routes[0].legs[0].duration.text;
+				document.getElementById("distance_road").innerHTML = distance;
+			}
+			else
+			{
+				alert('error: ' + status);
+			}
+		});
+
+	function toRad(deg)
+	{
+		return deg * Math.PI/180;
+	}
 
 //    var destination = "Denver, Colorado";
 //    var origin = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
