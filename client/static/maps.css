@@ -1,5 +1,5 @@
 #map{
-   height: 600px;
+   height: 500px;
    width: 100%;
    margin-bottom: 25px;
    }
@@ -8,9 +8,9 @@
    display: inline;
    }
 
-#country_container, #new_truck_form {
+#country_container {
    margin-left: 2%;
-   margin-bottom: 10px;
+   margin-bottom: 25px;
 }
 
 p, input {
@@ -19,13 +19,16 @@ p, input {
 
 #new_truck_form_2 {
    margin-left: 7%;
-   margin-bottom: 20px;
+   margin-bottom: 60px;
 }
 
-footer {
-    /*float: bottom;*/
-    position: relative;
-    bottom: 0;
-    width: 100%;
-    margin-top: 5%;
+#logo {
+   text-decoration: none;
+   color: white;
+   font-weight: normal;
+}
+
+.mdl-textfield {
+   margin-right: 3%;
+   display: inline-block;
 }
