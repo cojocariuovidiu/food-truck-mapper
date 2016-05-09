@@ -5,11 +5,11 @@
 
          <div id="new_truck_form_2">
             <h4>Add a New Food Truck!</h4>
-            <form action="#" name="truckForm" ng-submit='addTruck()'>
-              <div class="mdl-textfield mdl-js-textfield">
-                <input ng-model='new_truck.name' required class="mdl-textfield__input" type="text" id="name">
-                <label class="mdl-textfield__label" for="name">Name...</label>
-             </div>
+            <form name="truckForm" ng-submit='addTruck()' action="#">
+               <div class="mdl-textfield mdl-js-textfield">
+                  <input ng-model='new_truck.name' required class="mdl-textfield__input" type="text" id="name">
+                  <label class="mdl-textfield__label" for="name">Name...</label>
+               </div>
               <div class="mdl-textfield mdl-js-textfield">
                  <input ng-model='new_truck.lat' required class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="lat">
                  <label class="mdl-textfield__label" for="lat">Latitude...</label>
@@ -27,16 +27,14 @@
                 <label class="mdl-textfield__label" for="name">Description...</label>
                </div>
                <div class="mdl-textfield mdl-js-textfield">
-                  <textarea ng-model='new_truck.menu' class="mdl-textfield__input" type="text" rows="4" id="menu" required></textarea>
+                  <textarea ng-model='new_truck.menu' class="mdl-textfield__input" type="text" rows="4" id="menu"></textarea>
                   <label class="mdl-textfield__label" for="menu">Sample Menu...</label>
                </div>
                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--accent mdl-js-ripple-effect" type="submit">Submit</button>
             </form>
          </div>
 
-      <div id="hide_map">
          <div id="map"></div>
-      </div>
 
       <div class="mdl-layout-spacer"></div>
 

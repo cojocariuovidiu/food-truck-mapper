@@ -226,6 +226,7 @@ myApp.controller('mapsController', function ($scope, mapFactory) {
 	{
 		return deg * Math.PI/180;
 	}
+}
 
 //    var destination = "Denver, Colorado";
 //    var origin = new google.maps.LatLng(position.coords.latitude , position.coords.longitude);
